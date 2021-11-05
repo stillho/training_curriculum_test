@@ -9,13 +9,13 @@ class CalendarsController < ApplicationController
   # 予定の保存
   def create
     Plan.create(plan_params)
-    redirect_to action :index 
+    redirect_to action: :index 
   end
 
   private
 
   def plan_params
-    params.require(:plan).permit(:date, :plan, :calendars)
+    params.require(:plan).permit(:date, :plan, :calendars, :commit, :action)
   end
 
   def getWeek
@@ -40,7 +40,7 @@ class CalendarsController < ApplicationController
        wday_num = wday_num -7
 
       end
-      days = { :month => (@todays_date + x).month, :date => (@todays_date+x).day, :plans => today_plans, :wdays => @todays_date+x}
+      days = { :month => (@todays_date + x).month, :date => (@todays_date+x).day, :plans => today_plans, :wdays => %w((日) (月) (火) (水) (木) (金) (土))[(@todays_date + x).wday] }
       @week_days.push(days)
     end
 
